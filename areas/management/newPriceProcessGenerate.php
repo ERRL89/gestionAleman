@@ -9,6 +9,10 @@
 
     //Variable de control de tipo de archivo a cargar de acuerdo al numero de partidas generadas en cotizador
     $filePDF=0;
+    $verifyCot=0;
+
+    //Ver cotizacion
+    if(isset($_POST["verifyCot"])){ $verifyCot=$_POST["verifyCot"]; }
 
     //Recibe fecha
     if(isset($_POST["fecha"])){ $fecha=$_POST["fecha"]; }
@@ -66,12 +70,16 @@
         $filePDF=3;
     }
 
+    //Genera cotizacion en formato PDF
+    require($root.'resources/cotizadores/cotizadoc/generateCotPDF.php');
+
     //ENVIAR COMPROBANTE POR CORREO ELECTRONICO
     //require($root.'sendMailTDC.php');
 
-    require($root.'resources/cotizadores/cotizadoc/generateCotPDF.php');
-    //MUESTRA MENSAJE DE ENVIO CORRECTO
-    $messageSuccess = "Cotización enviada correctamente";
-    include_once($root."templates/acil/successPage.php");  
-
+    //MUESTRA MENSAJE DE ENVIO CORRECTO SOLO SI SE ENVIA POR GET PROCESS FORM
+    if($verifyCot==0){
+        $messageSuccess = "Cotización enviada correctamente";
+        include_once($root."templates/acil/successPage.php"); 
+    }
+    
 ?>

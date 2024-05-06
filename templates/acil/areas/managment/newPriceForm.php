@@ -1,32 +1,34 @@
-<?php
-    #DEFINICION DE PARAMETROS A ENVIAR EN FUNCIÓN
-    $inputForm = "form";
-    $routeProcess = "newPriceProcessGenerate.php";
-    $generalCanvas = "principal";
-    $table = "";
-    $elementsToHide = "formulario"; //Se deben separar con comas los elementos debido a que se ingresan en un array
-    $optionalFunction = "";
+<!-- DATOS PARA CONSTRUIR FUNCION -->
+    <?php
+        $inputForm = "form";
+        $routeProcess = "newPriceProcessGenerate.php";
+        $generalCanvas = "principal";
+        $table = "";
+        $elementsToHide = "formulario"; //Se deben separar con comas los elementos debido a que se ingresan en un array
+        $optionalFunction = "";
 
-    #CONSTRUCCIÓN DE FUNCIÓN
-    $functionParameters = " 
-    getProcessForm(
-        '{$inputForm}',  
-        '{$routeProcess}', 
-        '{$generalCanvas}', 
-        '{$table}', 
-        '{$elementsToHide}', 
-        {$optionalFunction}
-    );
-                        ";
-?>
+        #CONSTRUCCIÓN DE FUNCIÓN
+        $functionParameters = " 
+        getProcessForm(
+            '{$inputForm}',  
+            '{$routeProcess}', 
+            '{$generalCanvas}', 
+            '{$table}', 
+            '{$elementsToHide}', 
+            {$optionalFunction}
+        );
+                            ";
+    ?>
 
 <!-- Formulario de Contrato -->
 <div id="formulario" class="container p-5 mb-5">
   <form id="form">
     <div class="container-sm container_form_custom">
 
-    <div class="d-flex justify-content-end align-items-center gap-2"><!-- Fecha -->
+    <!-- Fecha -->
+    <div class="d-flex justify-content-end align-items-center gap-2">
         <?php
+            date_default_timezone_set('America/Mexico_City');
             $fecha = date('d-m-Y');
         ?>
         <label for="fecha" class="form-label label-custom">Fecha:</label>
@@ -198,12 +200,24 @@
     <!-- --------------------Boton agregar servicio y enviar cotizacion-------- -->
     <div class="container mt-5 d-flex justify-content-center align-items-center gap-2">
         <center><button type="button" id="addService" class="btn btn-primary btn-custom text-center">Agregar Servicio</button></center>
-        <?php
-              //Se asigna boton para generar cotizacion
-              $btn="
-                      <center><button type='button' id='genCotizacion' class='btn btn-primary btn-custom text-center' onclick=\"{$functionParameters}\">Revisar cotización</button></center>
-              ";echo $btn;
-        ?>
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Opciones
+                </button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" id="verCot">Ver Cotización</a></li>
+                <?php
+                    //Se asigna boton para generar cotizacion
+                    $btn="<li><a class='dropdown-item' onclick=\"{$functionParameters}\">Enviar Cotización</a></li>";
+                    echo $btn;
+                ?>
+                <li><a class="dropdown-item" href="newPrice.php">Nueva Cotización</a></li>
+                </ul>
+            </div>
+        </div>
+
+        
     </div>
 
     </div>
@@ -223,10 +237,18 @@
     </div>
 </div>
 
+<script>
+$(document).ready(function() {
+    
+});
+</script>
+
+
 
 <script>
     let a=0
 
+    //Funion que muestra partida 2 y 3
     function addService(){
       if(a==0){
         $('#containerServices2').show()
@@ -247,9 +269,57 @@
 
     $(document).ready(function() {
 
+        // Función para enviar el formulario mediante AJAX para ver cotizacion
+        function verCotizacion() {
+            // Obtener los valores de los campos del formulario
+            var verifyCot=1
+            var fecha = $("#fecha").val()
+            var nombre = $("#nombre").val()
+            var telefono = $("#telefono").val()
+            var email = $("#email").val()
+            var typeService1 = $("#typeService1").val()
+            var service1 = $("#service1").val()
+            var cantidad1 = $("#cantidad1").val()
+            var costo1 = $("#costo1").val()
+            var numPersona1 = $("#numPersona1").val()
+            var total = $("#total").val()
+
+            // Objeto con los datos del formulario
+            var formData = {
+                verifyCot: verifyCot,
+                fecha: fecha,
+                nombre: nombre,
+                telefono: telefono,
+                email: email,
+                typeService1: typeService1,
+                service1: service1,
+                cantidad1: cantidad1,
+                costo1: costo1,
+                numPersona1: numPersona1,
+                total: total
+            };
+
+            // Enviar los datos mediante AJAX
+            $.ajax({
+                type: "POST",
+                url: "newPriceProcessGenerate.php",
+                data: formData,
+                success: function(result) {
+                    $('#principal').html(result)
+                }
+            });
+        }
+
+        // Evento de clic para enviar el formulario
+        $("#verCot").click(function() {
+            verCotizacion()
+        });
+
+        //Oculta partidas al momento de iniciar
         $('#containerServices2').hide()
         $('#containerServices3').hide()
-        $('#addService').click(addService);
+        $('#addService').click(addService)
+        //Asigan valores en cero
         $('#costo1').val(0)
         $('#costo2').val(0)
         $('#costo3').val(0)
