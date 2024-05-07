@@ -341,11 +341,11 @@ if($filePDF==3){
 }
 
 //GENERA ARCHIVO PDF
-$reciboPDF->Output($root."docs/cotizaciones/cotizacion.pdf", 'F');
+$reciboPDF->Output($root."docs/cotizaciones/".$fecha."-".$nombre.".pdf", 'F');
 
 //Solo muestra el link cuando se envia por VER COTIZACION
 if($verifyCot==1){
-    echo "<a href='../../docs/cotizaciones/cotizacion.pdf' target='_blank'>VER COTIZACIÓN</a>";   
+    echo "<a href='../../docs/cotizaciones/".$fecha.'-'.$nombre.".pdf' target='_blank'>VER COTIZACIÓN</a>";   
 }
 
 ?>
