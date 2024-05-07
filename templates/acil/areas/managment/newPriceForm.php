@@ -238,14 +238,6 @@
 </div>
 
 <script>
-$(document).ready(function() {
-    
-});
-</script>
-
-
-
-<script>
     let a=0
 
     //Funion que muestra partida 2 y 3
@@ -277,11 +269,25 @@ $(document).ready(function() {
             var nombre = $("#nombre").val()
             var telefono = $("#telefono").val()
             var email = $("#email").val()
+            //Valores de Primera Partida
             var typeService1 = $("#typeService1").val()
             var service1 = $("#service1").val()
             var cantidad1 = $("#cantidad1").val()
             var costo1 = $("#costo1").val()
             var numPersona1 = $("#numPersona1").val()
+            //Valores de Segunda Partida
+            var typeService2 = $("#typeService2").val()
+            var service2 = $("#service2").val()
+            var cantidad2 = $("#cantidad2").val()
+            var costo2 = $("#costo2").val()
+            var numPersona2 = $("#numPersona2").val()
+            //Valores de Tercera Partida
+            var typeService3 = $("#typeService3").val()
+            var service3 = $("#service3").val()
+            var cantidad3 = $("#cantidad3").val()
+            var costo3 = $("#costo3").val()
+            var numPersona3 = $("#numPersona3").val()
+
             var total = $("#total").val()
 
             // Objeto con los datos del formulario
@@ -296,6 +302,16 @@ $(document).ready(function() {
                 cantidad1: cantidad1,
                 costo1: costo1,
                 numPersona1: numPersona1,
+                typeService2: typeService2,
+                service2: service2,
+                cantidad2: cantidad2,
+                costo2: costo2,
+                numPersona2: numPersona2,
+                typeService3: typeService3,
+                service3: service3,
+                cantidad3: cantidad3,
+                costo3: costo3,
+                numPersona3: numPersona3,
                 total: total
             };
 
